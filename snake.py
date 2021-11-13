@@ -2,6 +2,7 @@ import pygame
 import time
 import random
 
+# Window size
 winx = 250
 winy = 250
 
@@ -60,21 +61,20 @@ segments = [[(winx//2)+(i*segment_size),(winy//2)] for i in range(start_length)]
 
 foodX,foodY = [random.randrange(segment_size,(winx-segment_size)),random.randrange(segment_size,(winy-segment_size))]
 
-#print("foodX,foodY",foodX,foodY)
-
 update_interval = 0.25
 
 # Main Game Loop
 while not done:
+  # Update section
   segments = update_segment_pos(segments)
   
   # Body collision
   for s in range(2,len(segments)):
     if segments[0][0] == segments[s][0] and segments[0][1] == segments[s][1]:
-      print("body_hit")
+      print("body_hit - dying now")
       done = True
   if segments[0][0] == segments[-1][0] and abs(segments[0][1] - segments[-1][1]) <= 10:
-    print("body_hit_tail")
+    print("body_hit_tail - dying now")
     done = True
 
   # Wall collision
@@ -87,31 +87,29 @@ while not done:
 
   # Food collision
   if ((segments[0][0] - foodX)**2 + (segments[0][1] - foodY)**2)**0.5 <= segment_size:
-    print('hit')
     foodX,foodY = [random.randrange(segment_size,(winx-segment_size)),random.randrange(segment_size,(winy-segment_size))]
     segments = add_segment(segments)
 
   events = pygame.event.get()
+
+  # Input section
+  # Use arrow keys to move the snake - press ESC or click the red 'X' to quit.
   for e in events:
     if e.type == pygame.QUIT:
      done = True
     elif e.type == pygame.KEYDOWN:
       if e.key == pygame.K_ESCAPE:
-        print("Quitting...")
         done = True
       elif e.key == pygame.K_UP:
-        print("Up")
         change_direction([0,-1])
       elif e.key == pygame.K_DOWN:
-        print("Down")
         change_direction([0,1])
       elif e.key == pygame.K_LEFT:
-        print("Left")
         change_direction([-1,0])
       elif e.key == pygame.K_RIGHT:
-        print("Right")
         change_direction([1,0])
 
+  # Draw section
   screen.fill((0,0,0))
   for s in segments:
     pygame.draw.rect(screen, (255,255,255), (s[0], s[1], segment_size, segment_size))
