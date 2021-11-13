@@ -55,17 +55,21 @@ screen = pygame.display.set_mode((winx,winy))
 
 done = False
 
-start_length = 3
+start_length = 1
 
 segments = [[(winx//2)+(i*segment_size),(winy//2)] for i in range(start_length)]
 
 foodX,foodY = [random.randrange(segment_size,(winx-segment_size)),random.randrange(segment_size,(winy-segment_size))]
 
-update_interval = 0.25
+update_interval = 0.5
+game_pace = 0.05
 
 # Main Game Loop
 while not done:
   # Update section
+  tailx = segments[-1][0]
+  taily = segments[-1][1]
+
   segments = update_segment_pos(segments)
   
   # Body collision
@@ -73,7 +77,7 @@ while not done:
     if segments[0][0] == segments[s][0] and segments[0][1] == segments[s][1]:
       print("body_hit - dying now")
       done = True
-  if segments[0][0] == segments[-1][0] and abs(segments[0][1] - segments[-1][1]) <= 10:
+  if segments[0][0] == tailx and segments[0][1] == taily:
     print("body_hit_tail - dying now")
     done = True
 
@@ -89,6 +93,9 @@ while not done:
   if ((segments[0][0] - foodX)**2 + (segments[0][1] - foodY)**2)**0.5 <= segment_size:
     foodX,foodY = [random.randrange(segment_size,(winx-segment_size)),random.randrange(segment_size,(winy-segment_size))]
     segments = add_segment(segments)
+    if update_interval > game_pace:
+      update_interval -= game_pace
+      update_interval = round(update_interval,2)
 
   events = pygame.event.get()
 
@@ -118,4 +125,5 @@ while not done:
 
   time.sleep(update_interval)
 
+print("Total Length:", len(segments))
 pygame.display.quit()
