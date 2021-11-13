@@ -55,13 +55,13 @@ screen = pygame.display.set_mode((winx,winy))
 
 done = False
 
-start_length = 1
+start_length = 2
 
 segments = [[(winx//2)+(i*segment_size),(winy//2)] for i in range(start_length)]
 
 foodX,foodY = [random.randrange(segment_size,(winx-segment_size)),random.randrange(segment_size,(winy-segment_size))]
 
-update_interval = 0.5
+update_interval = 0.45
 game_pace = 0.05
 
 # Main Game Loop
