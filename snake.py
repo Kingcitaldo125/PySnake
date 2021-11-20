@@ -83,30 +83,33 @@ while not done:
 
   segments = update_segment_pos(segments)
 
+  headx = segments[0][0]
+  heady = segments[0][1]
+
   # Body collision - Check the head's position against each segment that is not the head, and not the segment right behind the head;
   # If the position of the head is at the same position as a segment, we have a hit
   for s in range(2,len(segments)):
-    if segments[0][0] == segments[s][0] and segments[0][1] == segments[s][1]:
+    if headx == segments[s][0] and heady == segments[s][1]:
       print("body_hit - dying now")
       done = True
   # If the snake head is at the tail's previous position (position before the last segment pos update), we hit the tail.
   # A lapse in coordination between the Update section and the Draw section cause the tail's location on screen to appear at its previous pos, and not at its new pos.
   # Therefore, we should invoke collision logic relative to the previous position of the tail, and not its current position.
-  if segments[0][0] == tailx and segments[0][1] == taily:
+  if headx == tailx and heady == taily:
     print("body_hit_tail - dying now")
     done = True
 
   # Wall collision - Check to see if the snake head has left the arena
   # If the snake head is less than either (0,*) or (*,0) or greater than (winx,*) or (*,winy), we have left the arena
-  if segments[0][0] >= (winx - segment_size) or\
-    segments[0][0] <= (0) or\
-	segments[0][1] >= (winy - segment_size) or\
-	segments[0][1] <= (0):
+  if headx >= (winx - segment_size) or\
+    headx <= (0) or\
+	heady >= (winy - segment_size) or\
+	heady <= (0):
     print("Hit Wall - dying now")
     done = True
 
   # Food collision - If the eucladian distance between the snake head and the pellet are within the head's reach, we have a hit
-  if ((segments[0][0] - foodX)**2 + (segments[0][1] - foodY)**2)**0.5 <= segment_size:
+  if ((headx - foodX)**2 + (heady - foodY)**2)**0.5 <= segment_size:
     foodX,foodY = [random.randrange(segment_size,(winx-segment_size)),random.randrange(segment_size,(winy-segment_size))]
     segments = add_segment(segments)
     if update_interval > game_pace:
