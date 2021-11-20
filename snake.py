@@ -10,9 +10,7 @@ segment_size = 10
 direction = [-1,0]
 
 def add_segment(segs):
-  """
-  Append a new segment to the end of the snake
-  """
+  # Append a new segment to the end of the snake
   final_item_x = segs[-1][0]
   final_item_y = segs[-1][1]
 
@@ -21,11 +19,9 @@ def add_segment(segs):
   return segs
 
 def update_segment_pos(segs):
-  """
-  Update the head of the snake, and update each segment following the head.
-  For each segment in the snake's body, set each segment's position to the position
-  of the segment that it is following.
-  """
+  # Update the head of the snake, and update each segment following the head.
+  # For each segment in the snake's body, set each segment's position to the position
+  # of the segment that it is following.
   global direction
 
   prevs = [[x,y] for x,y in segs]
@@ -46,14 +42,12 @@ def update_segment_pos(segs):
   return segs
 
 def change_direction(dir):
-  """
-  Update the cardinal direction that the snake head should travel.
-  Possible directions are:
-  [-1,0]
-  [1,0]
-  [0,-1]
-  [0,1]
-  """
+  # Update the cardinal direction that the snake head should travel.
+  # Possible directions are:
+  # [-1,0]
+  # [1,0]
+  # [0,-1]
+  # [0,1]
   global direction
 
   if direction == [-1,0] and dir != [1,0]:
