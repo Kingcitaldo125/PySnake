@@ -69,7 +69,7 @@ start_length = 2
 
 segments = [[(winx//2)+(i*segment_size),(winy//2)] for i in range(start_length)]
 
-foodX,foodY = [random.randrange(segment_size,(winx-segment_size)),random.randrange(segment_size,(winy-segment_size))]
+foodx,foody = [random.randrange(segment_size,(winx-segment_size)),random.randrange(segment_size,(winy-segment_size))]
 
 update_interval = 0.45
 game_pace = 0.05
@@ -109,8 +109,8 @@ while not done:
     done = True
 
   # Food collision - If the eucladian distance between the snake head and the pellet are within the head's reach, we have a hit
-  if ((headx - foodX)**2 + (heady - foodY)**2)**0.5 <= segment_size:
-    foodX,foodY = [random.randrange(segment_size,(winx-segment_size)),random.randrange(segment_size,(winy-segment_size))]
+  if ((headx - foodx)**2 + (heady - foody)**2)**0.5 <= segment_size:
+    foodx,foody = [random.randrange(segment_size,(winx-segment_size)),random.randrange(segment_size,(winy-segment_size))]
     segments = add_segment(segments)
     if update_interval > game_pace:
       update_interval -= game_pace
@@ -139,7 +139,7 @@ while not done:
   screen.fill((0,0,0))
   for s in segments:
     pygame.draw.rect(screen, (255,255,255), (s[0], s[1], segment_size, segment_size))
-  pygame.draw.rect(screen, (255,0,0), (foodX, foodY, segment_size, segment_size))
+  pygame.draw.rect(screen, (255,0,0), (foodx, foody, segment_size, segment_size))
   pygame.display.flip()
 
   time.sleep(update_interval)
