@@ -145,5 +145,6 @@ while not done:
   time.sleep(update_interval)
 
 # Game has ended
+time.sleep(1.5)
 print("Total Length:", len(segments))
 pygame.display.quit()
